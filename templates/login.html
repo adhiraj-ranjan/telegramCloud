@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud Login</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login.css') }}">
+</head>
+
+<body>
+  {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+  <div class="wrapper">
+    <div id="formContent">
+      
+        <br style="line-height: 2;">
+        
+        <div>
+          <img src="{{ url_for('static',filename='cloud.png') }}" id="icon" alt="User Icon" />
+        </div>
+        <br style="line-height: 2;">
+      
+      <form action="{{ url_for('login') }}" method="POST">
+          <input type="tel" id="login" name="phoneNumber" placeholder="Phone Number" maxlength="15" value="{{ phoneNumber }}"></input>
+          <br><br>
+          <input type="submit"value="Continue">
+      </form>
+
+      <!-- Regresh Page -->
+      <div id="formFooter"> 
+        <a class="underlineHover" href="/refresh">Refresh page</a>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>

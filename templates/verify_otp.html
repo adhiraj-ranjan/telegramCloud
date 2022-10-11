@@ -1,0 +1,36 @@
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud Login</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/login.css') }}">
+</head>
+
+<body>
+  {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+  <div class="wrapper">
+    <div id="formContent">
+      
+        <br style="line-height: 2;">
+        <p>Enter OTP sent to <strong>{{ cnCode}}*******{{ unHiddenDigits }}</strong></p>
+        
+      <form action="{{ url_for('otp_verify') }}" method="POST">
+          <input type="number" id="otp" name="inputOtp" placeholder="Check your Telegram" value="{{ otp }}"></input>
+          <br><br>
+          <input type="submit"value="Login">
+      </form>
+
+      <!-- Previous Page -->
+      <div id="formFooter">
+        <a class="underlineHover" href="/">Change Phone [back]</a>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>

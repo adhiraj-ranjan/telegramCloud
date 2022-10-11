@@ -1,0 +1,124 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE-edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Telegram Cloud</title>
+        <link href="{{ url_for('static',filename='styles/cloud_page.css') }}" rel="stylesheet">
+    </head>
+<body>
+    <script>
+        function onLogout(){
+            if (window.confirm("You will be Logged out?")){
+                document.getElementById("logoutFinal").click();
+            }
+        }
+
+        function onDelete(_val){
+            if (window.confirm("The file will be deleted")){
+                document.getElementById("deleteFinal").value = _val;
+                document.getElementById("deleteFinal").click();
+            }
+        }
+        function toggleMobileMenu(menu) {
+            menu.classList.toggle('open');
+        }
+        function onUpload(){
+            document.getElementById("file_upload").click();
+        }
+        function onDownload(_val){
+            document.getElementById("file_download").value = _val;
+            document.getElementById("file_download").click();
+        }
+    </script>
+
+    <header>
+        <div id="brand"><a id="brand_a" href="/">Telegram Cloud</a>
+            <nav>
+                <div>
+                    <ul id="nav_ul" >
+                        <li><a href="https://www.instagram.com/adhirajranjan_" target="_blank">Instagram</a></li>
+                        <li><a href="https://www.github.com/adhiraj-ranjan" target="_blank">Github</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li>
+                            <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+                                <button type="button" id="upload_button" onclick="onUpload()">Upload File</button>
+                                <input style="display: none;" type="file" id="file_upload" name="file" onchange="form.submit()">
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <nav>
+            <form action="{{ url_for('logout') }}" method="POST">
+                <button type="submit" id="logoutFinal" style="display: none;"></button>
+                <button type="button" class="button-32" role="button" onclick="onLogout()">Log Out</button>
+            </form>
+        </nav>
+
+        <div id="hamburger-icon" onclick="toggleMobileMenu(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+            <ul class="mobile-menu">
+                <li><a class="li_black" href="https://www.instagram.com/adhirajranjan_" target="_blank">Instagram</a></li>
+                <li><a class="li_black" href="https://www.github.com/adhiraj-ranjan" target="_blank">Github</a></li>
+                <li><a class="li_black" href="/about">About</a></li>
+                <li>
+                    <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+                        <button type="button" id="upload_button" onclick="onUpload()">Upload File</button>
+                        <input style="display: none;" type="file" id="file_upload" name="file" onchange="form.submit()">
+                    </form>
+                </li>
+                <form action="{{ url_for('logout') }}" method="POST" id="logout">
+                    <button type="submit" id="logoutFinal" style="display: none;"></button>
+                    <button class="button-32" role="button" type="button" onclick="onLogout()">Log Out</button>
+                </form>
+            </ul>
+        </div>
+    </header>
+
+        <div class="table-responsive" style="overflow-x:auto;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th id="m_view1">Size</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>#</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <form action="{{ url_for('download_file') }}" method="POST" id="download_form"></form>
+                    <form action="{{ url_for('delete_file') }}" method="POST" id="delete_form"></form>
+                    <input type="submit" id="file_download" name="file_data" value="" form="download_form">
+                    <input type="submit" id="deleteFinal" name="file_id" value="" form="delete_form">
+                    {% for data in files_data.keys() %}
+                        <tr>
+                            <td class="dlinfo hover"><span id="m_view4">{{ files_data[data][0] }}</span><br><span id="m_view3">{{ files_data[data][-2] }}<br>{{ files_data[data][1] }}</span></td>
+                            
+                            <td class="dlinfo hover" id="m_view2">{{ files_data[data][1] }}</td>
+                            
+                            <td class="dlinfo hover" style="padding-left: 2px; padding-right: 2px;">{{ files_data[data][2] }}</td>
+
+                            <td class="dlinfo hover" style="padding-left: 2px; padding-right: 2px;">{{ files_data[data][3] }}</td>
+
+                            <td class="dlinfo hover2" style="padding-left: 8px; padding-right: 8px;" onClick="onDownload('{{ data }}no11i{{ files_data[data][0] }}')">   
+                                <img src="{{ url_for('static', filename='download.ico') }}" alt="download">
+                            </td>
+
+                            <td class="dlinfo hover2" style="padding-left: 8px; padding-right: 8px;" onclick="onDelete('{{ data }}')">
+                                <img src="{{ url_for('static', filename='delete.ico') }}" alt="delete">
+                            </td>
+                            
+                        </tr>
+                    {% endfor  %}
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>
